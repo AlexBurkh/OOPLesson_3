@@ -8,10 +8,10 @@ namespace Task_1
 {
     class BankAccount
     {
-        public BankAccount() : this(BankAccountType.debit, default(int)) { }
-        public BankAccount(int balance) : this(BankAccountType.debit, balance) { }
-        public BankAccount(BankAccountType type) : this(type, default(int)) { }
-        public BankAccount(BankAccountType type, int balance)
+        public BankAccount() : this(BankAccountType.debit, default(decimal)) { }
+        public BankAccount(decimal balance) : this(BankAccountType.debit, balance) { }
+        public BankAccount(BankAccountType type) : this(type, default(decimal)) { }
+        public BankAccount(BankAccountType type, decimal balance)
         {
             _accountNumber = BankAccount.GenerateAccountNumber();
             _accountType = type;
@@ -20,12 +20,12 @@ namespace Task_1
 
 
         private static int _lastNumber = 0;
-        private int _accountNumber;
-        private int _balance;
+        private decimal _accountNumber;
+        private decimal _balance;
         private BankAccountType _accountType;
 
-        internal int Number { get { return _accountNumber; } }
-        internal int Balance { get { return _balance; } private set { _balance = value; } }
+        internal decimal Number { get { return _accountNumber; } }
+        internal decimal Balance { get { return _balance; } private set { _balance = value; } }
         internal BankAccountType Type
         {
             get
@@ -44,12 +44,22 @@ namespace Task_1
             _lastNumber += 1;
             return num;
         }
-        public void AddToBalance(int sum) { Balance += sum; }
-        public void TakeFromBalance(int sum)
+        public void AddToBalance(decimal sum) { Balance += sum; }
+        public decimal TakeFromBalance(decimal sum)
         {
             if (Balance >= sum)
             {
                 Balance -= sum;
+                return sum;
+            }
+            return 0;
+        }
+        public void TopUpBalanceFromAnotherAccount(BankAccount sourceAccount, decimal amount)
+        {
+            decimal moneyTaken = sourceAccount.TakeFromBalance(amount);
+            if (moneyTaken > 0)
+            {
+                _balance += moneyTaken;
             }
         }
     }
