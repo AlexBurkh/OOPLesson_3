@@ -6,7 +6,9 @@ namespace Task_1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            BankAccount bankAccount1 = new BankAccount(3000);
+            BankAccount bankAccount2 = new BankAccount();
+            bankAccount2.TopUpBalanceFromAnotherAccount(bankAccount1, 1000);
         }
     }
 }
